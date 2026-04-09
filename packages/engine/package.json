@@ -1,0 +1,29 @@
+{
+  "name": "engine",
+  "version": "0.0.0",
+  "description": "A step-through JavaScript interpreter for runtime visualization.",
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "exports": {
+    ".": "./dist/index.mjs",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "vp pack",
+    "dev": "vp pack --watch",
+    "test": "vp test",
+    "check": "vp check"
+  },
+  "dependencies": {
+    "acorn": "^8.14.1"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "@typescript/native-preview": "7.0.0-dev.20260328.1",
+    "typescript": "^6.0.2",
+    "vite-plus": "^0.1.14"
+  }
+}
