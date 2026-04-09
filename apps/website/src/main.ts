@@ -49,7 +49,7 @@ let stepIndex = -1;
 const app = document.querySelector<HTMLDivElement>("#app")!;
 app.innerHTML = `
   <header>
-    <h1>Runtime Visualizer</h1>
+    <h1>Paso Paso</h1>
     <p class="subtitle">Paste a JavaScript snippet and step through its execution</p>
   </header>
   <main>
