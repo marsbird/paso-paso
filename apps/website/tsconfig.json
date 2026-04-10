@@ -6,6 +6,10 @@
     "types": ["vite/client"],
     "skipLibCheck": true,
 
+    /* JSX for Solid */
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
+
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
