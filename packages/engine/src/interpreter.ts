@@ -38,7 +38,6 @@ interface FunctionValue {
  * Handles plain Identifiers and AssignmentPatterns (default values).
  */
 function extractParams(params: any[]): ParamDef[] {
-  // eslint-disable-line @typescript-eslint/no-explicit-any
   return params.map((p) => {
     if (p.type === "AssignmentPattern") {
       return { name: p.left.name as string, defaultNode: p.right as Node };
@@ -356,7 +355,7 @@ export function execute(program: Program): TraceStep[] {
 // ---------------------------------------------------------------
 
 function execStatement(ctx: ExecContext, node: Node, env: Environment): unknown {
-  const n = node as any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  const n = node as any;
 
   switch (n.type) {
     case "EmptyStatement":
@@ -442,7 +441,7 @@ function execStatement(ctx: ExecContext, node: Node, env: Environment): unknown 
  * trace steps for entry, body, and exit.
  */
 function execExpression(ctx: ExecContext, node: Node, env: Environment): unknown {
-  const n = node as any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  const n = node as any;
 
   if (n.type === "CallExpression") {
     return execCall(ctx, n, env);
@@ -459,7 +458,7 @@ function execExpression(ctx: ExecContext, node: Node, env: Environment): unknown
  * but CallExpressions need to go through execCall.
  */
 function evalSyncOrCall(ctx: ExecContext, node: Node, env: Environment): unknown {
-  const n = node as any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  const n = node as any;
 
   switch (n.type) {
     case "CallExpression":
@@ -505,11 +504,7 @@ function evalSyncOrCall(ctx: ExecContext, node: Node, env: Environment): unknown
 /**
  * Execute a function call, recording trace steps.
  */
-function execCall(
-  ctx: ExecContext,
-  callExpr: any, // eslint-disable-line @typescript-eslint/no-explicit-any
-  env: Environment,
-): unknown {
+function execCall(ctx: ExecContext, callExpr: any, env: Environment): unknown {
   const callee = evalCallTarget(callExpr.callee, env);
 
   // Evaluate arguments (which may themselves contain calls)
@@ -558,7 +553,7 @@ function execCall(
   }
 
   // Block-bodied function: execute each statement
-  const body = (callee.body as any).body as Node[]; // eslint-disable-line @typescript-eslint/no-explicit-any
+  const body = (callee.body as any).body as Node[];
   let returnValue: unknown = undefined;
 
   for (const stmt of body) {
@@ -582,7 +577,7 @@ function execCall(
 // ---------------------------------------------------------------
 
 function evalSync(node: Node, env: Environment): unknown {
-  const n = node as any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  const n = node as any;
 
   switch (n.type) {
     case "Literal":
@@ -698,7 +693,7 @@ function evalCallTarget(
   node: Node,
   env: Environment,
 ): ((...args: unknown[]) => unknown) | FunctionValue {
-  const n = node as any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  const n = node as any;
   if (n.type === "MemberExpression") {
     const obj = evalSync(n.object, env) as Record<string, unknown>;
     const prop = n.computed ? (evalSync(n.property, env) as string) : (n.property.name as string);
@@ -727,7 +722,7 @@ function callFunctionSync(fn: FunctionValue, args: unknown[]): unknown {
     return evalSync(fn.body, fnEnv);
   }
 
-  const body = (fn.body as any).body as Node[]; // eslint-disable-line @typescript-eslint/no-explicit-any
+  const body = (fn.body as any).body as Node[];
   for (const stmt of body) {
     const result = evalStatementSync(stmt, fnEnv);
     if (isReturn(result)) return result.value;
@@ -736,7 +731,7 @@ function callFunctionSync(fn: FunctionValue, args: unknown[]): unknown {
 }
 
 function evalStatementSync(node: Node, env: Environment): unknown {
-  const n = node as any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  const n = node as any;
 
   switch (n.type) {
     case "EmptyStatement":
@@ -822,9 +817,9 @@ function evalBinary(op: string, left: unknown, right: unknown): unknown {
     case "!==":
       return left !== right;
     case "==":
-      return left == right; // eslint-disable-line eqeqeq
+      return left == right;
     case "!=":
-      return left != right; // eslint-disable-line eqeqeq
+      return left != right;
     case "<":
       return l < r;
     case ">":
