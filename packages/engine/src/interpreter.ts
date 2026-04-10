@@ -1,4 +1,4 @@
-import type { Node } from "acorn";
+import type { Node, Program } from "acorn";
 import type {
   ExecutionContext,
   HeapEntry,
@@ -323,7 +323,7 @@ class StepLimitError extends Error {
 /**
  * Execute a parsed AST and return the full execution trace.
  */
-export function execute(program: Node): TraceStep[] {
+export function execute(program: Program): TraceStep[] {
   const globalEnv = createEnv("(global)");
 
   // Setup builtins
@@ -344,11 +344,8 @@ export function execute(program: Node): TraceStep[] {
   };
   envDeclare(globalEnv, "console", consoleObj);
 
-  const n = program as any; // eslint-disable-line @typescript-eslint/no-explicit-any
-  if (n.type === "Program") {
-    for (const stmt of n.body) {
-      execStatement(ctx, stmt, globalEnv);
-    }
+  for (const stmt of program.body) {
+    execStatement(ctx, stmt, globalEnv);
   }
 
   return ctx.steps;

@@ -14,7 +14,7 @@ export function createTrace(code: string): Trace {
   try {
     const ast = parse(code, {
       ecmaVersion: "latest",
-      sourceType: "module",
+      allowAwaitOutsideFunction: true,
       locations: true,
     });
 
